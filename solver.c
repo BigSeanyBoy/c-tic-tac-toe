@@ -3,29 +3,22 @@
 #define KNOTS_CHAR 'O'
 #define CROSSES_CHAR 'X'
 
-enum turn {
-    Knots,
-    Crosses
+struct KCBoard {
+    unsigned short knots;
+    unsigned short crosses;
 };
 
-unsigned short state = 0;
-unsigned short knots_loc = 0;
-unsigned short crosses_loc = 0;
-
-enum turn player = Knots;
-
-void print_board() {
-    int pos_status;
-
+void print_board(struct KCBoard board) {
     printf("\n ");
     for (int i = 0; i < 9; ++i) {
         if (i) {
             i % 3 == 0 ? printf("\n-----------\n ") : printf(" | ");
         }
 
-        pos_status = (state >> i) & 1;
-        if (pos_status) {
-            pos_status & (knots_loc >> i) ? printf("%c", KNOTS_CHAR) : printf("%c", CROSSES_CHAR);
+        if ((board.knots >> i) & 1) {
+            printf("%c", KNOTS_CHAR);
+        } else if ((board.crosses >> i) & 1) {
+            printf("%c", CROSSES_CHAR);
         } else {
             printf(" ");
         }
@@ -34,7 +27,11 @@ void print_board() {
 }
 
 int main() {
-    print_board();
+    struct KCBoard board;
+    board.knots = 0;
+    board.crosses = 0;
+
+    print_board(board);
 
     return 0;
 }
