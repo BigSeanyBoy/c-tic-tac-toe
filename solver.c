@@ -1,12 +1,6 @@
 #include <stdio.h>
 
-#define KNOTS_CHAR 'O'
-#define CROSSES_CHAR 'X'
-
-struct KCBoard {
-    unsigned short knots;
-    unsigned short crosses;
-};
+#include "solver.h"
 
 void print_board(struct KCBoard board) {
     printf("\n ");
