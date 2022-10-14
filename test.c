@@ -61,8 +61,5 @@ int main() {
     test_board.mask = 31;
     test_play(test_board, "crosses move");
 
-    play(4);
-    test_play(test_board, "invalid move");
-
     return 0;
 }
