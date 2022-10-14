@@ -24,6 +24,10 @@ int can_play(int pos) {
     return !((board.mask >> pos) & 1);
 }
 
+void play(int pos) {
+    
+}
+
 // int main() {
 //     board.player = KNOTS;
 //     board.position = 0;
