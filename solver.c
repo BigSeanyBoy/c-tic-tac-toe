@@ -25,7 +25,11 @@ int can_play(int pos) {
 }
 
 void play(int pos) {
-    
+    if (!((board.mask >> pos) & 1)) {
+        board.player = board.player == KNOTS ? CROSSES : KNOTS;
+        board.position ^= board.mask;
+        board.mask += (1 << pos);
+    }
 }
 
 // int main() {
