@@ -30,12 +30,16 @@ void play(int pos) {
     board.mask += (1 << pos);
 }
 
+int alignment(int pos) {
+    return 2;
+}
+
 // int main() {
 //     board.player = KNOTS;
 //     board.position = 0;
 //     board.mask = 0;
 
-//     print_board(board);
+//     print_board();
 
 //     return 0;
 // }
