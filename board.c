@@ -1,6 +1,6 @@
 #include "board.h"
 
-int* movegen(struct NCBoard *position) {
+void movegen(struct NCBoard *position) {
     int moves[9];
     int j = 0;
     for (int i = 0; i < 9; ++i) {
@@ -8,7 +8,6 @@ int* movegen(struct NCBoard *position) {
             moves[j] = i;
         }
     }
-    return moves;
 }
 
 void play(struct NCBoard *position, int move) {
@@ -24,11 +23,10 @@ void play(struct NCBoard *position, int move) {
 }
 
 void playseq(struct NCBoard *position, char* seq) {
-    int seqlen = sizeof(seq) / sizeof(char);
-    int move;
+    int seqlen = 0;
+    for (int c = 0; seq[c] != '\0'; ++c) ++seqlen;
     for (int i = 0; i < seqlen; ++i) {
-        move = seq[i] = '0';
-        play(position, move);
+        play(position, seq[i] - '0');
     }
 }
 
@@ -51,5 +49,14 @@ void display(struct NCBoard *position) {
 }
 
 int main() {
+    struct NCBoard position;
+    position.side = NOUGHTS;
+    position.noughts = 0;
+    position.crosses = 0;
+
+    display(&position);
+    playseq(&position, "012345678");
+    display(&position);
+
     return 0;
 }

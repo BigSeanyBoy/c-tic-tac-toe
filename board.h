@@ -1,6 +1,8 @@
 #ifndef BOARD
 #define BOARD
 
+#include <stdio.h>
+
 #define NOUGHTS_CHAR 'O'
 #define CROSSES_CHAR 'X'
 
@@ -15,7 +17,7 @@ struct NCBoard {
     unsigned short crosses;
 };
 
-int* movegen(struct NCBoard *position);
+void movegen(struct NCBoard *position);
 void play(struct NCBoard *position, int move);
 void playseq(struct NCBoard* position, char* seq);
 
