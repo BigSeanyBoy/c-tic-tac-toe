@@ -12,4 +12,6 @@ struct NCBoard {
     unsigned short crosses;
 };
 
+int* movegen(struct NCBoard *position);
+
 #endif
