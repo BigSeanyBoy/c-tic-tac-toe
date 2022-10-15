@@ -1,6 +1,9 @@
 #ifndef BOARD
 #define BOARD
 
+#define NOUGHTS_CHAR 'O'
+#define CROSSES_CHAR 'X'
+
 enum piece {
     NOUGHTS = 0,
     CROSSES = 1

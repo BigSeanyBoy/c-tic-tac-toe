@@ -32,6 +32,24 @@ void playseq(struct NCBoard *position, char* seq) {
     }
 }
 
+void display(struct NCBoard *position) {
+    printf("\n ");
+    for (int i = 0; i < 9; ++i) {
+        if (i) {
+            i % 3 == 0 ? printf("\n-----------\n ") : printf(" | ");
+        }
+
+        if ((position->noughts >> i) & 1) {
+            printf("%c", NOUGHTS_CHAR);
+        } else if ((position->crosses >> i) & 1) {
+            printf("%c", CROSSES_CHAR);
+        } else {
+            printf(" ");
+        }
+    }
+    printf("\n\n");
+}
+
 int main() {
     return 0;
 }
