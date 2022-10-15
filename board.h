@@ -11,14 +11,15 @@ enum piece {
     CROSSES = 1
 };
 
-struct NCBoard {
+typedef struct {
     enum piece side;
     unsigned short noughts;
     unsigned short crosses;
-};
+} NCBoard;
 
-void movegen(struct NCBoard *position);
-void play(struct NCBoard *position, int move);
-void playseq(struct NCBoard* position, char* seq);
+void play(NCBoard *position, int move);
+void playseq(NCBoard *position, char* seq);
+void display(const NCBoard *position);
+int negamax(const NCBoard *position);
 
 #endif
