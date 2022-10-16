@@ -43,6 +43,14 @@ void unmake(NCBoard *position) {
     }
 }
 
+int alignment(unsigned short position) {
+    if (position & (position >> 1) & (position >> 2)) return 1;
+    if (position & (position >> 3) & (position >> 6)) return 1;
+    if (position & (position >> 4) & (position >> 8)) return 1;
+    if (position & (position >> 2) & (position >> 4)) return 1;
+    return 0;
+}
+
 void display(const NCBoard *position) {
     printf("\n ");
     for (int i = 0; i < 9; ++i) {
@@ -69,9 +77,6 @@ int main() {
 
     display(&position);
     playseq(&position, "012345678");
-    display(&position);
-    unmake(&position);
-    unmake(&position);
     display(&position);
 
     return 0;
