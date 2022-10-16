@@ -1,5 +1,12 @@
 #include "board.h"
 
+int legal(NCBoard *position, int move) {
+    if (move < 0 || move > 8) return 0;
+    if ((position->noughts >> move) & 1) return 0;
+    if ((position->crosses >> move) & 1) return 0;
+    return 1;
+}
+
 void play(NCBoard *position, int move) {
     switch (position->side) {
         case NOUGHTS:
