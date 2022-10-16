@@ -12,14 +12,18 @@ enum piece {
 };
 
 typedef struct {
+    int movelist[9];
     enum piece side;
+    int nbmoves;
     unsigned short noughts;
     unsigned short crosses;
 } NCBoard;
 
-int legal(NCBoard *position, int move);
+int legal(const NCBoard *position, int move);
 void play(NCBoard *position, int move);
+void unmake(NCBoard *position);
 void playseq(NCBoard *position, char* seq);
 void display(const NCBoard *position);
+int alignment(const NCBoard *position);
 
 #endif

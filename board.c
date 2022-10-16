@@ -1,6 +1,6 @@
 #include "board.h"
 
-int legal(NCBoard *position, int move) {
+int legal(const NCBoard *position, int move) {
     if (move < 0 || move > 8) return 0;
     if ((position->noughts >> move) & 1) return 0;
     if ((position->crosses >> move) & 1) return 0;
@@ -17,6 +17,8 @@ void play(NCBoard *position, int move) {
             break;
     }
     position->side = position->side ^ 1;
+    position->movelist[position->nbmoves] = move;
+    ++position->nbmoves;
 }
 
 void playseq(NCBoard *position, char* seq) {
@@ -24,6 +26,20 @@ void playseq(NCBoard *position, char* seq) {
     for (int c = 0; seq[c] != '\0'; ++c) ++seqlen;
     for (int i = 0; i < seqlen; ++i) {
         play(position, seq[i] - '0');
+    }
+}
+
+void unmake(NCBoard *position) {
+    --position->nbmoves;
+    int move = position->movelist[position->nbmoves];
+    position->side = position->side ^ 1;
+    switch (position->side) {
+        case NOUGHTS:
+            position->noughts -= (1 << move);
+            break;
+        case CROSSES:
+            position->crosses -= (1 << move);
+            break;
     }
 }
 
@@ -53,6 +69,9 @@ int main() {
 
     display(&position);
     playseq(&position, "012345678");
+    display(&position);
+    unmake(&position);
+    unmake(&position);
     display(&position);
 
     return 0;
