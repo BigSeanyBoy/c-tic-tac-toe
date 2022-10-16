@@ -63,42 +63,8 @@ void display(const NCBoard *position) {
         } else if ((position->crosses >> i) & 1) {
             printf("%c", CROSSES_CHAR);
         } else {
-            printf(" ");
+            printf("%d", i);
         }
     }
     printf("\n\n");
-}
-
-int main() {
-    NCBoard position;
-    position.side = NOUGHTS;
-    position.noughts = 0;
-    position.crosses = 0;
-
-    int move;
-    int endgame = 0;
-    while (!endgame) {
-        display(&position);
-        printf("Enter move: ");
-        scanf("%d", &move);
-        while ((getchar()) != '\n');
-        if (legal(&position, move)) {
-            play(&position, move);
-        } else {
-            printf("Illegal move\n");
-        }
-        switch (position.side) {
-            case CROSSES:
-                endgame = alignment(position.noughts);
-                break;
-            case NOUGHTS:
-                endgame = alignment(position.crosses);
-                break;
-        }
-    }
-
-    display(&position);
-    position.side == CROSSES ? printf("Noughts win!\n\n") : printf("Crosses win!\n\n");
-
-    return 0;
 }
