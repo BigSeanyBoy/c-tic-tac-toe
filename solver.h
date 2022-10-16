@@ -3,6 +3,8 @@
 
 #include "board.h"
 
-int negaMax(int depth);
+int evaluate(NCBoard *position);
+int movegen(NCBoard *position, int *moves);
+int negamax(NCBoard *position, int depth);
 
 #endif
