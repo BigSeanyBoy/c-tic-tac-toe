@@ -44,10 +44,10 @@ void unmake(NCBoard *position) {
 }
 
 int alignment(unsigned short position) {
-    if (position & (position >> 1) & (position >> 2)) return 1;
-    if (position & (position >> 3) & (position >> 6)) return 1;
-    if (position & (position >> 4) & (position >> 8)) return 1;
-    if (position & (position >> 2) & (position >> 4)) return 1;
+    if (position & (position >> 1) & (position >> 2) & (1 | 8 | 64)) return 1;
+    if (position & (position >> 3) & (position >> 6) & (1 | 2 | 4)) return 1;
+    if (position & (position >> 4) & (position >> 8) & 1) return 1;
+    if (position & (position >> 2) & (position >> 4) & 4) return 1;
     return 0;
 }
 
@@ -75,9 +75,30 @@ int main() {
     position.noughts = 0;
     position.crosses = 0;
 
+    int move;
+    int endgame = 0;
+    while (!endgame) {
+        display(&position);
+        printf("Enter move: ");
+        scanf("%d", &move);
+        while ((getchar()) != '\n');
+        if (legal(&position, move)) {
+            play(&position, move);
+        } else {
+            printf("Illegal move\n");
+        }
+        switch (position.side) {
+            case CROSSES:
+                endgame = alignment(position.noughts);
+                break;
+            case NOUGHTS:
+                endgame = alignment(position.crosses);
+                break;
+        }
+    }
+
     display(&position);
-    playseq(&position, "012345678");
-    display(&position);
+    position.side == CROSSES ? printf("Noughts win!\n\n") : printf("Crosses win!\n\n");
 
     return 0;
 }

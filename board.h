@@ -23,7 +23,7 @@ int legal(const NCBoard *position, int move);
 void play(NCBoard *position, int move);
 void unmake(NCBoard *position);
 void playseq(NCBoard *position, char* seq);
-void display(const NCBoard *position);
 int alignment(unsigned short position);
+void display(const NCBoard *position);
 
 #endif
