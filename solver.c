@@ -153,7 +153,14 @@ int evaluate(NCBoard *position) {
 }
 
 int movegen(NCBoard *position, int *moves) {
-    return 0;
+    int count = 0;
+    for (int i = 0; i < 9; ++i) {
+        if (legal(position, i)) {
+            moves[count] = i;
+            ++count;
+        }
+    }
+    return count;
 }
 
 int negamax(NCBoard *position, int depth) {
