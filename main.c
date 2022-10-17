@@ -1,4 +1,5 @@
-#include "board.h"
+// #include "board.h"
+#include "solver.h"
 
 int main() {
     NCBoard position;
@@ -9,6 +10,7 @@ int main() {
     int move;
     int endgame = 0;
     while (!endgame) {
+        printf("\nHeuristic Score: %d", evaluate(&position));
         display(&position);
         printf("Enter move: ");
         scanf("%d", &move);
@@ -30,6 +32,7 @@ int main() {
         }
     }
 
+    printf("\nHeuristic Score: %d", evaluate(&position));
     display(&position);
     position.side == CROSSES ? printf("Noughts win!\n\n") : printf("Crosses win!\n\n");
 
