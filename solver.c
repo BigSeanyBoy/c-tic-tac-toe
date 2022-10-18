@@ -25,9 +25,9 @@ int movegen(NCBoard *position, int *moves) {
 }
 
 int negamax(NCBoard *position, int depth) {
-    if (depth == 0) return evaluate(position);
+    if (gameover(position)) return evaluate(position);
 
-    int max = -8;
+    int max = -999;
     int score;
 
     int moves[9];
