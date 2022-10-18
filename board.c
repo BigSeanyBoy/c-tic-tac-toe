@@ -51,6 +51,17 @@ int alignment(unsigned short position) {
     return 0;
 }
 
+int gameover(NCBoard *position) {
+    if (alignment(position->noughts)) return 1;
+    if (alignment(position->crosses)) return 1;
+    for (int i = 0; i < 9; ++i) {
+        if (legal(position, i)) {
+            return 0;
+        }
+    }
+    return 1;
+}
+
 void display(const NCBoard *position) {
     printf("\n ");
     for (int i = 0; i < 9; ++i) {

@@ -24,6 +24,7 @@ void play(NCBoard *position, int move);
 void unmake(NCBoard *position);
 void playseq(NCBoard *position, char* seq);
 int alignment(unsigned short position);
+int gameover(NCBoard *position);
 void display(const NCBoard *position);
 
 #endif
