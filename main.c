@@ -3,7 +3,7 @@
 #define AI 0
 #define USER 1
 
-int main() {
+int gameloop() {
     NCBoard position;
     position.side = NOUGHTS;
     position.noughts = 0;
@@ -11,7 +11,7 @@ int main() {
     position.nbmoves = 0;
 
     int player;
-    printf("Would you like to go first? [y/n]: ");
+    printf("\nWould you like to go first? [y/n]: ");
     player = getchar() == 'y' ? USER : AI;
     while ((getchar()) != '\n');
 
@@ -26,7 +26,7 @@ int main() {
                 play(&position, move);
                 player = AI;
             } else if (move == -1) {
-                return 0;
+                return 1;
             } else {
                 printf("Illegal move\n");
             }
@@ -53,9 +53,20 @@ int main() {
     display(&position);
 
     if (alignment(position.noughts) || alignment(position.crosses)) {
-        position.side == CROSSES ? printf("Noughts win!\n\n") : printf("Crosses win!\n\n");
+        position.side == CROSSES ? printf("Noughts win!\n") : printf("Crosses win!\n");
     } else {
-        printf("Draw...\n\n");
+        printf("Draw...\n");
+    }
+
+    return 0;
+}
+
+int main() {
+    for (;;) {
+        if (gameloop()) break;
+        printf("\nWould you like to play again? [y/n]: ");
+        if (getchar() != 'y') break;
+        while ((getchar()) != '\n');
     }
 
     return 0;
