@@ -3,8 +3,8 @@
 
 #include <stdio.h>
 
-#define NOUGHTS_CHAR 'O'
-#define CROSSES_CHAR 'X'
+#define NOUGHTS_CHAR "\x1b[36mO\x1b[0m"
+#define CROSSES_CHAR "\x1b[35mX\x1b[0m"
 
 enum piece {
     NOUGHTS = 0,

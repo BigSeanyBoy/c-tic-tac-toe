@@ -70,9 +70,9 @@ void display(const NCBoard *position) {
         }
 
         if ((position->noughts >> i) & 1) {
-            printf("%c", NOUGHTS_CHAR);
+            printf("%s", NOUGHTS_CHAR);
         } else if ((position->crosses >> i) & 1) {
-            printf("%c", CROSSES_CHAR);
+            printf("%s", CROSSES_CHAR);
         } else {
             printf("%d", i);
         }
