@@ -6,11 +6,10 @@ int main() {
     position.side = NOUGHTS;
     position.noughts = 0;
     position.crosses = 0;
+    position.nbmoves = 0;
 
     int move;
-    int endgame = 0;
-    while (!endgame) {
-        printf("\nHeuristic Score: %d", evaluate(&position));
+    while (!gameover(&position)) {
         display(&position);
         printf("Enter move: ");
         scanf("%d", &move);
@@ -22,19 +21,15 @@ int main() {
         } else {
             printf("Illegal move\n");
         }
-        switch (position.side) {
-            case CROSSES:
-                endgame = alignment(position.noughts);
-                break;
-            case NOUGHTS:
-                endgame = alignment(position.crosses);
-                break;
-        }
     }
 
-    printf("\nHeuristic Score: %d", evaluate(&position));
     display(&position);
-    position.side == CROSSES ? printf("Noughts win!\n\n") : printf("Crosses win!\n\n");
+
+    if (alignment(position.noughts) || alignment(position.crosses)) {
+        position.side == CROSSES ? printf("Noughts win!\n\n") : printf("Crosses win!\n\n");
+    } else {
+        printf("Draw...\n\n");
+    }
 
     return 0;
 }

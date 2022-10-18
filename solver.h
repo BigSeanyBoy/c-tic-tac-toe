@@ -5,6 +5,6 @@
 
 int evaluate(NCBoard *position);
 int movegen(NCBoard *position, int *moves);
-int negamax(NCBoard *position, int depth);
+int negamax(NCBoard *position);
 
 #endif
