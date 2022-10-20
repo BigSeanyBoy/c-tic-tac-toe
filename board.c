@@ -1,5 +1,8 @@
 #include "board.h"
 
+/*
+ * Check if a move is legal for a given position
+ */
 int legal(const NCBoard *position, int move) {
     if (move < 0 || move > 8) return 0;
     if ((position->noughts >> move) & 1) return 0;
@@ -7,6 +10,12 @@ int legal(const NCBoard *position, int move) {
     return 1;
 }
 
+/*
+ * Play a specified move for a given board state.
+ *
+ * Place the current sides marker, change sides, add the move to the list of
+ * played moves, and increment the number of moves played this game.
+ */
 void play(NCBoard *position, int move) {
     switch (position->side) {
         case NOUGHTS:
@@ -21,6 +30,9 @@ void play(NCBoard *position, int move) {
     ++position->nbmoves;
 }
 
+/*
+ * Play a sequence of moves specified by a string of integersl
+ */
 void playseq(NCBoard *position, char* seq) {
     int seqlen = 0;
     for (int c = 0; seq[c] != '\0'; ++c) ++seqlen;
@@ -29,6 +41,11 @@ void playseq(NCBoard *position, char* seq) {
     }
 }
 
+/*
+ * Undo the most recently played move. 
+ * 
+ * Effectively the opposite of the "play" function above.
+ */
 void unmake(NCBoard *position) {
     --position->nbmoves;
     int move = position->movelist[position->nbmoves];
@@ -43,6 +60,10 @@ void unmake(NCBoard *position) {
     }
 }
 
+/*
+ * Check for an alignment of 3 pieces of the same side. A position consisting
+ * of only one piece type is given so there is no need to check the side.
+ */
 int alignment(unsigned short position) {
     if (position & (position >> 1) & (position >> 2) & (1 | 8 | 64)) return 1;
     if (position & (position >> 3) & (position >> 6) & (1 | 2 | 4)) return 1;
@@ -51,6 +72,10 @@ int alignment(unsigned short position) {
     return 0;
 }
 
+/*
+ * Check if the game is over. End game conditions are an alignment (win/loss)
+ * or a full board without an alignment (draw).
+ */
 int gameover(NCBoard *position) {
     if (alignment(position->noughts)) return 1;
     if (alignment(position->crosses)) return 1;
@@ -62,6 +87,9 @@ int gameover(NCBoard *position) {
     return 1;
 }
 
+/*
+ * Print the given position.
+ */
 void display(const NCBoard *position) {
     printf("\n ");
     for (int i = 0; i < 9; ++i) {
