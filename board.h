@@ -42,12 +42,12 @@ typedef struct {
     unsigned short crosses;
 } NCBoard;
 
-int legal(const NCBoard *position, int move);   // Test if a move is legal
-void play(NCBoard *position, int move);         // Execute a move
-void unmake(NCBoard *position);                 // Undo the last move
-void playseq(NCBoard *position, char* seq);     // Play a sequence of moves
-int alignment(unsigned short position);         // Test for alignment
-int gameover(NCBoard *position);                // Test for engame conditions
-void display(const NCBoard *position);          // Print the position
+int legal(const NCBoard *position, int move);
+void play(NCBoard *position, int move);
+void unmake(NCBoard *position);
+void playseq(NCBoard *position, char* seq);
+int alignment(unsigned short position);
+int gameover(NCBoard *position);
+void display(const NCBoard *position);
 
 #endif
