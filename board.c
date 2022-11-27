@@ -31,7 +31,7 @@ void play(NCBoard *position, int move) {
 }
 
 /*
- * Play a sequence of moves specified by a string of integersl
+ * Play a sequence of moves specified by a string of integers.
  */
 void playseq(NCBoard *position, char* seq) {
     int seqlen = 0;
