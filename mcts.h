@@ -29,6 +29,8 @@ void freenode(nodeptr node);
 
 void _uct(nodeptr node);
 
+nodeptr selection(nodeptr node);
+
 int search(NCBoard *position);
 
 #endif /* MCTS_H_ */

@@ -69,7 +69,7 @@ int main() {
     position.crosses = 0;
     position.nbmoves = 0;
 
-    search(&position);
+    printf("%d\n", search(&position));
 
     /* for (;;) {
         if (gameloop()) break;
