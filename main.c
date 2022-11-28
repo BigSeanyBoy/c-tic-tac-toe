@@ -63,13 +63,13 @@ int gameloop() {
 }
 
 int main() {
-    nodeptr root = initnode(NULL);
+    NCBoard position;
+    position.side = NOUGHTS;
+    position.noughts = 0;
+    position.crosses = 0;
+    position.nbmoves = 0;
 
-    for (int i = 0; i < 3; ++i) {
-        nodeptr child = initnode(root);
-        root->children[i] = child;
-        printf("%p %f\n", child, child->uct);
-    }
+    search(&position);
 
     /* for (;;) {
         if (gameloop()) break;
@@ -77,8 +77,6 @@ int main() {
         if (getchar() != 'y') break;
         while ((getchar()) != '\n');
     } */
-
-    freenode(root);
 
     return 0;
 }
