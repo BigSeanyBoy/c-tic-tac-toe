@@ -1,6 +1,4 @@
 .DS_Store
-board
-board.dSYM/
 .vscode/
-main
-main.dSYM/
+obj/
+out

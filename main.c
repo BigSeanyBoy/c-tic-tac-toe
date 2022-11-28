@@ -1,4 +1,5 @@
 #include "solver.h"
+#include "./mcts.h"
 
 #define AI 0
 #define USER 1
@@ -62,12 +63,20 @@ int gameloop() {
 }
 
 int main() {
-    for (;;) {
+    nodeptr root = initnode();
+
+    for (int i = 0; i < 3; ++i) {
+        root->children[i] = initnode();
+    }
+
+    /* for (;;) {
         if (gameloop()) break;
         printf("\nWould you like to play again? [y/n]: ");
         if (getchar() != 'y') break;
         while ((getchar()) != '\n');
-    }
+    } */
+
+    freenode(root);
 
     return 0;
 }
