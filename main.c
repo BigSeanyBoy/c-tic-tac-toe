@@ -63,10 +63,12 @@ int gameloop() {
 }
 
 int main() {
-    nodeptr root = initnode();
+    nodeptr root = initnode(NULL);
 
     for (int i = 0; i < 3; ++i) {
-        root->children[i] = initnode();
+        nodeptr child = initnode(root);
+        root->children[i] = child;
+        printf("%p %f\n", child, child->uct);
     }
 
     /* for (;;) {
