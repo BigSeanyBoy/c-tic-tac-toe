@@ -18,13 +18,10 @@ nodeptr initnode(int move, nodeptr parent) {
 
         node->wins = 0;
         node->visits = 0;
-        if (!parent) { ++node->visits; }
 
         node->parent = parent;
         node->nbchild = 0;
-        for (int i = 0; i < 256; ++i) { node->children[i] = NULL; }
-
-        if (parent) { _uct(node); }
+        for (int i = 0; i < 9; ++i) { node->children[i] = NULL; }
 
         return node;
 }
@@ -35,7 +32,7 @@ nodeptr initnode(int move, nodeptr parent) {
  * Append a new child onto the parent node.
  */
 void addchild(nodeptr parent, nodeptr child) {
-        assert(parent->nbchild < 256);
+        assert(parent->nbchild < 9);
         parent->children[parent->nbchild] = child;
         ++parent->nbchild;
 }
@@ -47,7 +44,7 @@ void addchild(nodeptr parent, nodeptr child) {
  * function on the root with free the entire tree.
  */
 void freenode(nodeptr node) {
-        for (int i = 0; node->children[i]; ++i) {
+        for (int i = 0; i < node->nbchild; ++i) {
                 freenode(node->children[i]);
         }
 
@@ -59,12 +56,12 @@ void freenode(nodeptr node) {
  *
  * Calculate the UCT of the provided node.
  */
-void _uct(nodeptr node) {
+float _uct(nodeptr node) {
         float visits = node->visits + 0.001;
         float ratio = node->wins / visits;
         float explore = C * sqrt(log(node->parent->visits) / visits);
 
-        node->uct = ratio + explore;
+        return ratio + explore;
 }
 
 /*
@@ -74,16 +71,59 @@ void _uct(nodeptr node) {
  * been visited, return the node with the highest UCT.
  */
 nodeptr selection(nodeptr node) {
-        nodeptr best = node->children[0];
+        nodeptr child;
+        float max = 0;
 
         for (int i = 0; i < node->nbchild; ++i) {
-                nodeptr child = node->children[i];
+                nodeptr curr = node->children[i];
 
-                if (child->visits == 0) { return child; }
-                if (child->uct > best->uct) { best = child; }
+                if (curr->visits == 0) { return curr; }
+
+                float uct = _uct(curr);
+                if (uct > max) {
+                        max = uct;
+                        child = curr;
+                }
         }
 
-        return best;
+        return child;
+}
+
+/*
+ * Expansion
+ *
+ * Create all child nodes for the provided nodes.
+ */
+void expansion(NCBoard *position, nodeptr node) {
+        int movelist[9];
+        int count = movegen(position, movelist);
+        for (int i = 0; i < count; ++i) {
+                nodeptr child = initnode(movelist[i], node);
+                addchild(node, child);
+        }
+}
+
+/*
+ * Rollout
+ *
+ * Simulate a game until a terminal node is reached and return the result.
+ */
+int rollout(NCBoard *position, nodeptr node, unsigned long long *nodecount) {
+        if (gameover(position)) { return evaluate(position); }
+
+        play(position, node->move);
+
+        if (node->nbchild == 0) { expansion(position, node); }
+
+        ++(*nodecount);
+        ++node->visits;
+        int result = -rollout(position, selection(node), nodecount);
+        if (result == 0) { result = rand() % 2 == 0 ? 1 : -1; }
+        if (result == 1) { ++node->wins; }
+
+        unmake(position);
+        
+        return result;
 }
 
 /*
@@ -100,19 +140,34 @@ int search(NCBoard *position) {
 
         for (int i = 0; i < count; ++i) {
                 nodeptr node = initnode(movelist[i], root);
-                ++node->visits; /* example */
                 addchild(root, node);
         }
 
-        /* example */
-        root->children[3]->wins = 1;
-        _uct(root->children[3]);
+        unsigned long long nodecount = 0;
 
-        nodeptr best = NULL;
-        int pv = 0;
+        struct timeval t;
+        gettimeofday(&t, NULL);
+        unsigned long long start = t.tv_sec * 1000ull + t.tv_usec / 1000ull;
+        for (int t = 0; t < 300000; ++t) {
+                ++nodecount;
+                ++root->visits;
+                nodeptr node = selection(root);
+                rollout(position, node, &nodecount);
+        }
+        gettimeofday(&t, NULL);
+        unsigned long long end = t.tv_sec * 1000ull + t.tv_usec / 1000ull;
+
+        printf("nodes %llu time %llu\n\n", nodecount, end - start);
+
+        float best = 0;
+        int pv;
         for (int i = 0; i < root->nbchild; ++i) {
-                best = selection(root);
-                pv = best->move;
+                nodeptr child = root->children[i];
+                float uct = _uct(child);
+                if (uct > best) {
+                        best = uct;
+                        pv = child->move;
+                }
         }
 
         freenode(root);

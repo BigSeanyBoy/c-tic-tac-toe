@@ -4,11 +4,12 @@
 #include <assert.h>
 #include <math.h>
 #include <stdlib.h>
+#include <sys/time.h>
 
 #include "./board.h"
 #include "./solver.h"
 
-#define C 2
+#define C 1
 
 typedef struct node{
         int move;
@@ -18,18 +19,18 @@ typedef struct node{
 
         struct node *parent;
         int nbchild;
-        struct node *children[256];
-
-        float uct;
+        struct node *children[9];
 } * nodeptr;
 
 nodeptr initnode();
 void addchild(nodeptr parent, nodeptr child);
 void freenode(nodeptr node);
 
-void _uct(nodeptr node);
+float _uct(nodeptr node);
 
 nodeptr selection(nodeptr node);
+void expansion(NCBoard *position, nodeptr node);
+int rollout(NCBoard *position, nodeptr node, unsigned long long *nodecount);
 
 int search(NCBoard *position);
 
