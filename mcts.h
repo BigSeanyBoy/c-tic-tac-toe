@@ -30,7 +30,7 @@ float _uct(nodeptr node);
 
 nodeptr selection(nodeptr node);
 void expansion(NCBoard *position, nodeptr node);
-int rollout(NCBoard *position, nodeptr node, unsigned long long *nodecount);
+int rollout(NCBoard *position, nodeptr node);
 
 int search(NCBoard *position);
 

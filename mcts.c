@@ -108,16 +108,15 @@ void expansion(NCBoard *position, nodeptr node) {
  *
  * Simulate a game until a terminal node is reached and return the result.
  */
-int rollout(NCBoard *position, nodeptr node, unsigned long long *nodecount) {
+int rollout(NCBoard *position, nodeptr node) {
         if (gameover(position)) { return evaluate(position); }
 
         play(position, node->move);
 
         if (node->nbchild == 0) { expansion(position, node); }
 
-        ++(*nodecount);
         ++node->visits;
-        int result = -rollout(position, selection(node), nodecount);
+        int result = -rollout(position, selection(node));
         if (result == 0) { result = rand() % 2 == 0 ? 1 : -1; }
         if (result == 1) { ++node->wins; }
 
@@ -143,21 +142,11 @@ int search(NCBoard *position) {
                 addchild(root, node);
         }
 
-        unsigned long long nodecount = 0;
-
-        struct timeval t;
-        gettimeofday(&t, NULL);
-        unsigned long long start = t.tv_sec * 1000ull + t.tv_usec / 1000ull;
-        for (int t = 0; t < 300000; ++t) {
-                ++nodecount;
+        for (int t = 0; t < 10000; ++t) {
                 ++root->visits;
                 nodeptr node = selection(root);
-                rollout(position, node, &nodecount);
+                rollout(position, node);
         }
-        gettimeofday(&t, NULL);
-        unsigned long long end = t.tv_sec * 1000ull + t.tv_usec / 1000ull;
-
-        printf("nodes %llu time %llu\n\n", nodecount, end - start);
 
         float best = 0;
         int pv;
