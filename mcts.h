@@ -11,6 +11,13 @@
 
 #define C 1
 
+/*
+ * Nodes represent a possible move, and store how many winning games have been
+ * played from the move, how many total games have been played from the move,
+ * the parent node (the previously played move), the children nodes (all
+ * possible moves after this node's move), and the Upper Confidence bounds
+ * applied to Trees  which indicates the quality of the move.
+ */
 typedef struct node{
         int move;
 
